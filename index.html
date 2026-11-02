@@ -9,7 +9,7 @@
 <meta property="og:title" content="Something came for you">
 <meta property="og:description" content="Open the envelope.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Pinyon+Script&family=Special+Elite&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pinyon+Script&family=Special+Elite&display=swap">
 <style>
 /* Layout: one centred stage. A sealed envelope first, then a tri-fold scrapbook card that unfolds, then a strip of surprise tiles. */
 :root {
@@ -655,6 +655,140 @@ main { position: relative; z-index: 1; }
 .lock-clock span { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .7; }
 .lock .chip { border-color: var(--parchment-light); color: var(--parchment-light); margin-top: 10px; }
 
+/* ---------- act three: the Court of Birthdays (phone first) ---------- */
+.court {
+  --wood: #3a2316; --wood-dark: #21130a; --brass: #d3ac58; --legal: #f8f2e2; --legal-line: #c9b98f; --baize: #1f3b2d;
+  --f-law: "Libre Baskerville", "Baskerville", Georgia, serif;
+  position: fixed; inset: 0; z-index: 75; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  scroll-padding-top: calc(64px + env(safe-area-inset-top, 0px)); scroll-padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .18) 0 2px, transparent 2px 64px),
+    repeating-linear-gradient(90deg, rgba(255, 220, 170, .03) 0 1px, transparent 1px 7px),
+    linear-gradient(180deg, var(--wood), var(--wood-dark));
+  color: var(--legal); animation: fade .8s;
+}
+.court-top {
+  position: sticky; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) max(14px, env(safe-area-inset-right, 0px)) 10px max(14px, env(safe-area-inset-left, 0px));
+  background: rgba(33, 19, 10, .92); border-bottom: 1px solid rgba(211, 172, 88, .35);
+  font-family: var(--f-type); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--brass);
+}
+.court-top button { border: 1px solid rgba(248, 242, 226, .35); background: transparent; color: var(--legal); border-radius: 999px; padding: 6px 12px; font-family: var(--f-type); font-size: 11px; letter-spacing: .06em; }
+.court-inner { width: min(560px, 100%); margin: 0 auto; padding: 18px max(14px, env(safe-area-inset-right, 0px)) calc(110px + env(safe-area-inset-bottom, 0px)) max(14px, env(safe-area-inset-left, 0px)); }
+.cstep { display: flex; flex-direction: column; gap: 16px; animation: chapIn .7s both; }
+.c-eyebrow { margin: 0; font-family: var(--f-type); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--brass); text-align: center; }
+.c-title { margin: 0; font-family: var(--f-law); font-weight: 700; font-size: 22px; line-height: 1.25; text-align: center; text-wrap: balance; }
+.c-hint { margin: 0; text-align: center; font-family: var(--f-law); font-style: italic; font-size: 15px; color: rgba(248, 242, 226, .75); }
+.court-btn {
+  align-self: center; min-height: 48px; border: 0; border-radius: 999px; padding: 12px 24px; background: var(--brass); color: #1d1206;
+  font-family: var(--f-type); font-size: 14px; letter-spacing: .06em; box-shadow: 0 6px 16px rgba(0, 0, 0, .35);
+}
+.court-btn.ghost { background: transparent; color: var(--legal); border: 1px solid rgba(248, 242, 226, .5); box-shadow: none; }
+.court-btn:active { transform: translateY(1px); }
+
+/* legal paper */
+.legal {
+  position: relative; background: var(--legal); color: #1d1610; padding: 22px 18px 26px 30px;
+  font-family: var(--f-law); font-size: 15px; line-height: 1.6;
+  background-image: linear-gradient(90deg, transparent 18px, rgba(160, 40, 40, .45) 18px 19px, transparent 19px 22px, rgba(160, 40, 40, .45) 22px 23px, transparent 23px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .45);
+}
+.legal p { margin: 0; }
+.legal .lg-court { text-align: center; font-weight: 700; letter-spacing: .06em; font-size: 14px; }
+.legal .lg-sub, .legal .lg-case { text-align: center; font-size: 13px; font-style: italic; }
+.legal .lg-case { font-style: normal; margin-top: 8px; }
+.legal .lg-in { margin-top: 14px; font-size: 13px; }
+.lg-parties { display: flex; flex-direction: column; gap: 4px; margin: 6px 0 14px; }
+.lg-parties p { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.lg-parties span { font-style: italic; font-size: 13px; }
+.lg-parties .lg-v { justify-content: center; font-weight: 700; letter-spacing: .1em; font-size: 12px; }
+.legal h3 { margin: 6px 0 8px; text-align: center; font-size: 16px; letter-spacing: .2em; text-decoration: underline; text-underline-offset: 4px; }
+.legal .lg-body { text-align: justify; hyphens: auto; }
+.legal .lg-sign { margin-top: 16px; text-align: right; font-size: 13px; font-style: italic; }
+.legal ol { margin: 8px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+.stamp-seal {
+  position: absolute; left: 30px; bottom: 16px; width: 74px; height: 74px; border-radius: 50%; border: 2px solid rgba(142, 28, 38, .7);
+  display: grid; place-items: center; text-align: center; color: rgba(142, 28, 38, .8); font-family: var(--f-type); font-size: 8px; letter-spacing: .1em;
+  transform: rotate(-14deg); box-shadow: inset 0 0 0 4px var(--legal), inset 0 0 0 5px rgba(142, 28, 38, .5);
+}
+
+/* the bench log */
+.bench { display: flex; flex-direction: column; gap: 10px; }
+.line { display: flex; flex-direction: column; gap: 3px; padding: 12px 14px; border-radius: 4px; background: rgba(248, 242, 226, .07); border-left: 3px solid var(--brass); animation: chapIn .5s both; }
+.line b { font-family: var(--f-type); font-weight: 400; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--brass); }
+.line span { font-family: var(--f-law); font-size: 16px; line-height: 1.5; }
+.line.clerk { border-left-color: #8fa7b8; } .line.clerk b { color: #a9c0d0; }
+.line.pros { border-left-color: #c46a5a; } .line.pros b { color: #e09080; }
+.line.you { align-self: flex-end; border-left: 0; border-right: 3px solid var(--legal); text-align: right; background: rgba(248, 242, 226, .14); }
+.line.you b { color: var(--legal); }
+.charge-meter { display: flex; justify-content: center; gap: 6px; }
+.charge-meter i { width: 26px; height: 5px; border-radius: 3px; background: rgba(248, 242, 226, .2); }
+.charge-meter i.on { background: var(--brass); }
+.c-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.c-actions button { min-height: 52px; border-radius: 6px; border: 1px solid rgba(248, 242, 226, .45); background: rgba(248, 242, 226, .08); color: var(--legal); font-family: var(--f-type); font-size: 13px; letter-spacing: .04em; }
+.c-actions button.g { background: var(--brass); color: #1d1206; border-color: var(--brass); }
+
+/* objection */
+.objection {
+  position: fixed; z-index: 4; right: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  min-height: 48px; padding: 10px 18px; border-radius: 999px; border: 2px solid #f1d27e; background: #8e1c26; color: #fff4dc;
+  font-family: var(--f-law); font-weight: 700; font-style: italic; font-size: 16px; box-shadow: 0 8px 18px rgba(0, 0, 0, .45);
+}
+.objection.shout { animation: shout .45s; }
+@keyframes shout { 30% { transform: scale(1.18) rotate(-4deg); } }
+.ruling {
+  position: fixed; z-index: 4; left: max(14px, env(safe-area-inset-left, 0px)); right: max(14px, env(safe-area-inset-right, 0px));
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px)); margin: 0 auto; max-width: 420px;
+  background: var(--legal); color: #1d1610; border-radius: 6px; padding: 12px 14px; font-family: var(--f-law); font-size: 15px; line-height: 1.45;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .5); animation: chapIn .35s both;
+}
+.ruling b { display: block; font-family: var(--f-type); font-weight: 400; font-size: 10px; letter-spacing: .16em; color: #8e1c26; margin-bottom: 2px; }
+
+/* maxims viva */
+.maxim { margin: 0; text-align: center; font-family: var(--f-law); font-style: italic; font-size: clamp(24px, 7vw, 32px); line-height: 1.2; color: var(--brass); text-wrap: balance; }
+.opts { display: flex; flex-direction: column; gap: 10px; }
+.opts button {
+  min-height: 52px; text-align: left; padding: 12px 16px; border-radius: 6px; border: 1px solid rgba(248, 242, 226, .35);
+  background: rgba(248, 242, 226, .06); color: var(--legal); font-family: var(--f-law); font-size: 15px; line-height: 1.35;
+}
+.opts button.right { background: #2f5a3f; border-color: #7fc29a; }
+.opts button.wrong { background: #5a2a2a; border-color: #d98a8a; opacity: .85; }
+.opts button:disabled { cursor: default; }
+.q-feedback { margin: 0; font-family: var(--f-law); font-size: 15px; line-height: 1.5; padding: 12px 14px; border-radius: 6px; background: rgba(248, 242, 226, .08); }
+.q-progress { margin: 0; text-align: center; font-family: var(--f-type); font-size: 12px; color: rgba(248, 242, 226, .7); }
+
+/* gavel */
+.gavel-wrap { display: grid; place-items: center; padding: 10px 0; }
+.gavel { width: 190px; height: 170px; border: 0; background: none; padding: 0; position: relative; touch-action: manipulation; }
+.gavel svg { width: 100%; height: 100%; overflow: visible; }
+.gavel .hammer { transform-origin: 150px 140px; transform: rotate(-28deg); transition: transform .12s ease-in; }
+.gavel.hit .hammer { transform: rotate(4deg); }
+.order { margin: 0; text-align: center; font-family: var(--f-law); font-weight: 700; font-size: clamp(30px, 9vw, 44px); min-height: 1.3em; letter-spacing: .04em; }
+.order.pop { animation: shout .4s; }
+.judgment .verdict-word { display: block; text-align: center; font-weight: 700; letter-spacing: .3em; font-size: 22px; color: #8e1c26; margin: 6px 0 4px; }
+
+/* constitution */
+.articles { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.articles li { display: flex; gap: 10px; align-items: flex-start; }
+.articles .art-text { flex: 1; min-width: 0; font-size: 14.5px; line-height: 1.5; }
+.articles .art-text b { display: block; font-size: 12px; letter-spacing: .08em; }
+.ratify {
+  flex: none; min-width: 84px; min-height: 40px; border-radius: 4px; border: 1.5px solid #1d1610; background: transparent; color: #1d1610;
+  font-family: var(--f-type); font-size: 11px; letter-spacing: .06em;
+}
+.ratify.on { background: #1d1610; color: var(--legal); }
+.sign-box { margin-top: 18px; display: flex; flex-direction: column; gap: 6px; }
+.sign-box label { font-family: var(--f-type); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+#signPad { width: 100%; height: 130px; border-bottom: 1.5px solid #1d1610; background: rgba(0, 0, 0, .03); touch-action: none; display: block; border-radius: 3px 3px 0 0; }
+.sign-box .row-s { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-style: italic; }
+.sign-box .row-s button { border: 0; background: none; font-family: var(--f-type); font-size: 11px; text-decoration: underline; color: #1d1610; padding: 6px; }
+.enacted {
+  position: absolute; right: 14px; top: 40%; padding: 6px 14px; border: 4px double #8e1c26; color: #8e1c26; font-family: var(--f-type); font-size: 26px; letter-spacing: .14em;
+  transform: rotate(-16deg); background: rgba(248, 242, 226, .6); animation: slam .5s cubic-bezier(.3, 1.6, .5, 1) both; pointer-events: none; text-align: center; line-height: 1.1;
+}
+.enacted small { display: block; font-size: 10px; letter-spacing: .1em; }
+@keyframes slam { from { transform: rotate(-16deg) scale(3); opacity: 0; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .2s !important; }
 }
@@ -824,6 +958,7 @@ main { position: relative; z-index: 1; }
       <h2 id="doorTitle">Turn off the lights</h2>
       <p>Find a quiet corner and turn your sound on. When you are ready, flip the switch.</p>
       <button class="switch" id="lightSwitch" aria-label="Turn off the lights"><span></span></button>
+      <button class="chip solid" id="doorCourt" hidden>Open the envelope marked "Urgent"</button>
     </section>
   </section>
 </main>
@@ -896,7 +1031,8 @@ main { position: relative; z-index: 1; }
       <p class="n-text" id="endText">Every lantern up there carries the same wish: that this is your best year yet.</p>
       <p class="n-sign" id="endSign"></p>
       <div class="n-row">
-        <button class="n-next solid" id="selfieBtn">Take a birthday photo</button>
+        <button class="n-next solid" id="courtBtn">Open the envelope marked "Urgent"</button>
+        <button class="n-next" id="selfieBtn">Take a birthday photo</button>
         <button class="n-next" id="replayBtn">Watch the sky again</button>
       </div>
       <div class="selfie" id="selfie" hidden>
@@ -914,6 +1050,113 @@ main { position: relative; z-index: 1; }
       </div>
     </section>
   </div>
+</div>
+
+<!-- Act three: the Court of Birthdays -->
+<div class="court" id="court" hidden>
+  <div class="court-top"><span>Court of Birthdays</span><button id="courtClose">Leave the court</button></div>
+  <div class="court-inner">
+
+    <section class="cstep" data-step="summons">
+      <p class="c-eyebrow">Urgent · by hand</p>
+      <article class="legal">
+        <p class="lg-court">IN THE HON'BLE COURT OF BIRTHDAYS</p>
+        <p class="lg-sub">(Original Jurisdiction over Celebrations)</p>
+        <p class="lg-case">Birthday Petition No. <span id="petNo"></span> of <span id="petYear"></span></p>
+        <p class="lg-in">In the matter of:</p>
+        <div class="lg-parties">
+          <p>Everyone Who Loves Her <span>… Petitioners</span></p>
+          <p class="lg-v">VERSUS</p>
+          <p><b class="nameSlot"></b> <span>… Respondent</span></p>
+        </div>
+        <h3>SUMMONS</h3>
+        <p class="lg-body" id="summonsBody"></p>
+        <p class="lg-sign">By order of the Court,<br>Registrar (Cakes &amp; Candles)</p>
+        <div class="stamp-seal" aria-hidden="true">COURT OF<br>BIRTHDAYS<br>· SEAL ·</div>
+      </article>
+      <button class="court-btn" data-go="charges">Appear before the court</button>
+    </section>
+
+    <section class="cstep" data-step="charges" hidden>
+      <p class="c-eyebrow">Framing of charges</p>
+      <div class="charge-meter" id="chargeMeter" aria-hidden="true"></div>
+      <div class="bench" id="bench" aria-live="polite"></div>
+      <div class="c-actions" id="pleaBtns" hidden>
+        <button class="g" id="pleadG">Plead guilty</button>
+        <button id="pleadN">Plead not guilty</button>
+      </div>
+      <button class="court-btn" id="toQuiz" hidden>Proceed to the viva</button>
+    </section>
+
+    <section class="cstep" data-step="quiz" hidden>
+      <p class="c-eyebrow">Viva voce on legal maxims</p>
+      <p class="q-progress" id="qProgress"></p>
+      <p class="c-hint">Counsel, what does this maxim mean?</p>
+      <p class="maxim" id="qMaxim"></p>
+      <div class="opts" id="qOpts"></div>
+      <p class="q-feedback" id="qFeedback" hidden></p>
+      <button class="court-btn" id="qNext" hidden>Next question</button>
+    </section>
+
+    <section class="cstep" data-step="verdict" hidden>
+      <p class="c-eyebrow">Judgment</p>
+      <h2 class="c-title">The court will now pronounce its judgment</h2>
+      <p class="c-hint" id="gavelHint">Call the court to order. Tap the gavel three times.</p>
+      <div class="gavel-wrap">
+        <button class="gavel" id="gavel" aria-label="Strike the gavel">
+          <svg viewBox="0 0 200 180" aria-hidden="true">
+            <ellipse cx="100" cy="162" rx="62" ry="12" fill="#21130a"/>
+            <rect x="52" y="140" width="96" height="22" rx="6" fill="#6b4126"/>
+            <rect x="52" y="140" width="96" height="6" rx="3" fill="#8a5a36"/>
+            <g class="hammer">
+              <rect x="96" y="40" width="10" height="110" rx="5" fill="#7a4a2a" transform="rotate(-50 150 140)"/>
+              <g transform="rotate(-50 150 140)">
+                <rect x="70" y="18" width="62" height="34" rx="8" fill="#5b331c"/>
+                <rect x="64" y="22" width="8" height="26" rx="3" fill="#d3ac58"/>
+                <rect x="130" y="22" width="8" height="26" rx="3" fill="#d3ac58"/>
+              </g>
+            </g>
+          </svg>
+        </button>
+      </div>
+      <p class="order" id="orderText" aria-live="polite"></p>
+      <article class="legal judgment" id="judgment" hidden>
+        <p class="lg-court">JUDGMENT</p>
+        <p class="lg-case"><span class="nameSlot"></span>'s Birthday, <span id="judgDate"></span></p>
+        <p class="lg-body" id="judgIntro" style="margin-top:12px"></p>
+        <span class="verdict-word">GUILTY</span>
+        <ol id="judgOrders"></ol>
+        <p class="lg-sign">Sd/-<br>Justice Cupcake, Chief Justice</p>
+      </article>
+      <button class="court-btn" id="toConst" hidden>One last document</button>
+    </section>
+
+    <section class="cstep" data-step="constitution" hidden>
+      <p class="c-eyebrow">Part III · Fundamental Rights</p>
+      <article class="legal" id="constDoc">
+        <p class="lg-court">THE CONSTITUTION OF <span class="nameSlot"></span>'S BIRTHDAY</p>
+        <p class="lg-sub">We, the people who love her, do hereby adopt, enact and give to her this Constitution.</p>
+        <ul class="articles" id="articles"></ul>
+        <div class="sign-box" id="signBox" hidden>
+          <label for="signPad">Signature of the Sovereign</label>
+          <canvas id="signPad" aria-label="Sign here with your finger"></canvas>
+          <div class="row-s"><span>Sign with your finger</span><button id="signClear">Clear</button></div>
+        </div>
+      </article>
+      <p class="c-hint" id="constHint">Ratify each article to bring it into force.</p>
+      <button class="court-btn" id="enactBtn" hidden>Sign and enact</button>
+      <div class="cstep" id="adjourn" hidden>
+        <h2 class="c-title">The court is adjourned.</h2>
+        <p class="c-hint">Happy birthday, counsel. Go and enjoy every one of your new fundamental rights.</p>
+        <div class="c-actions">
+          <button class="g" id="adjCard">Back to the card</button>
+          <button id="adjSky">See the sky again</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <button class="objection" id="objection" hidden>Objection!</button>
+  <div class="ruling" id="ruling" hidden></div>
 </div>
 
 <!-- Before the day: a countdown -->
@@ -1792,6 +2035,7 @@ function openNight() {
 function closeNight() {
   run++; clearInterval(statsTimer); stopMic(); stopCam(); Sky.stop();
   $("#night").hidden = true; document.body.style.overflow = ""; $("#lightSwitch").classList.remove("off");
+  $("#doorCourt").hidden = false;
 }
 $("#lightSwitch").addEventListener("click", openNight);
 $("#finaleNight").addEventListener("click", () => { $("#finale").hidden = true; openNight(); });
@@ -1807,6 +2051,250 @@ $("#night").addEventListener("pointerdown", e => {
   burst(e.clientX, e.clientY, { particleCount: 34, spread: 360, startVelocity: 14, colors: ["#fff6d8", "#d8b56a", "#ffffff"] });
   toast(caught === 1 ? "You caught a shooting star. That is one extra wish." : `${caught} shooting stars caught. Greedy, and we love it.`);
 });
+
+/* ================= Act three: the Court of Birthdays ================= */
+function knock() {
+  const a = audio(); if (!a) return;
+  const t = a.currentTime, o = a.createOscillator(), g = a.createGain();
+  o.type = "sine"; o.frequency.setValueAtTime(190, t); o.frequency.exponentialRampToValueAtTime(50, t + .12);
+  g.gain.setValueAtTime(.7, t); g.gain.exponentialRampToValueAtTime(.001, t + .25);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + .3);
+  popSound();
+  if (navigator.vibrate) try { navigator.vibrate(35); } catch (e) {}
+}
+const Court = (() => {
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const shuffle = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const you = hasName ? NAME.split(" ")[0] : "Respondent";
+  const ageText = AGE ? `${AGE} consecutive years` : "years on end";
+  const CHARGES = [
+    ["Section 3 of the Kindness Act", "being unreasonably kind to everyone, including people who did nothing to deserve it.", "Exhibit A: every friend who ever called at 2 a.m. and was never once turned away."],
+    ["Section 7 of the Hearts (Protection) Act", "stealing hearts without a warrant.", "Exhibit B: several hearts, reported missing, last seen somewhere near her smile."],
+    ["Section 12 of the Ordinary Days Act", "habitually making ordinary days better, without a licence.", "Exhibit C: Mondays. Even Mondays, Your Lordship."],
+    ["Rule 9 of the Moot Court Rules", "studying law while being this charming, which is grossly unfair to opposing counsel.", "Exhibit D: opposing counsel, who forgot their entire argument."],
+    ["Section 26 of the Birthday Code", `being this wonderful for ${ageText}, with no sign of stopping.`,
+      BORN ? `Exhibit E: ${numIN.format(Math.floor((Date.now() - BORN) / 864e5))} days of documented wonderfulness.` : "Exhibit E: everyone who has ever met her."]
+  ];
+  const MAXIMS = [
+    ["Audi alteram partem", "Hear the other side", "So hear our side: you are wonderful, and we will not be taking questions."],
+    ["Res ipsa loquitur", "The thing speaks for itself", "Much like your smile. No further evidence required."],
+    ["Ubi jus ibi remedium", "Where there is a right, there is a remedy", "You have a right to cake today. The remedy is a second slice."],
+    ["Nemo judex in causa sua", "No one should be a judge in their own cause", "Which is why you don't get to decide how amazing you are. We do. Very."],
+    ["Actus non facit reum nisi mens sit rea", "An act is not guilty unless the mind is also guilty", "Today the only guilty mind allowed is the one planning a third slice."]
+  ];
+  const DISTRACT = ["Let the buyer beware", "Ignorance of the law is no excuse", "The law does not concern itself with trifles", "To a willing person, no injury is done", "Let the decision stand", "The welfare of the people is the supreme law"];
+  const OBJ = [
+    "Overruled.",
+    "Overruled. Nice try, counsel.",
+    "On what grounds? “It's my birthday” is not a ground. Overruled.",
+    "Sustained. …Just kidding. Overruled.",
+    "The court notes the objection, and ignores it, lovingly.",
+    "Objecting to compliments is contempt of court. Overruled.",
+    "Objection to being adorable? Overruled. Obviously."
+  ];
+  const ARTICLES = [
+    ["Article 1", "The right to cake, free from any reasonable restrictions."],
+    ["Article 2", "The right not to be asked about internships, CGPA or moot results today."],
+    ["Article 3", "The right to choose the food, the music and the film."],
+    ["Article 4", "Freedom from assignments, readings and case briefs for 24 hours."],
+    ["Article 5", "The right to be a little late to everything, without penalty."],
+    ["Article 6", "The right to more hugs than usual. Enforceable by writ, Article 32 style."]
+  ];
+  let token = 0, ci = 0, qi = 0, score = 0, hits = 0, objections = 0, rulingTimer = 0, signed = false, padReady = false;
+
+  function show(name) {
+    token++;
+    $$("#court .cstep[data-step]").forEach(s => { s.hidden = s.dataset.step !== name; });
+    $("#objection").hidden = !["charges", "quiz", "verdict"].includes(name);
+    $("#ruling").hidden = true;
+    $("#court").scrollTop = 0;
+    ({ charges: startCharges, quiz: startQuiz, verdict: startVerdict, constitution: startConst })[name]?.();
+  }
+  function open() {
+    closeNight();
+    $("#court").hidden = false; document.body.style.overflow = "hidden";
+    $("#petNo").textContent = AGE || 1; $("#petYear").textContent = today.getFullYear();
+    $("#summonsBody").textContent = `Whereas the Petitioners allege that the Respondent, ${hasName ? NAME : "named above"}, has been impossibly wonderful for ${ageText}; you are hereby summoned to appear before this Court in person, today, on the occasion of your birthday, to answer the charges framed against you. Take notice that if you fail to appear, the matter will be heard in your absence and you will be celebrated anyway.`;
+    show("summons"); knock();
+  }
+  function close() { token++; $("#court").hidden = true; document.body.style.overflow = ""; }
+
+  /* charges */
+  function say(who, cls, text) {
+    const d = document.createElement("div"); d.className = "line " + cls;
+    const b = document.createElement("b"), s = document.createElement("span"); b.textContent = who; s.textContent = text;
+    d.append(b, s); $("#bench").append(d);
+    d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "end" });
+  }
+  async function startCharges() {
+    const my = token; ci = 0;
+    $("#bench").innerHTML = ""; $("#toQuiz").hidden = true; $("#pleaBtns").hidden = true;
+    $("#chargeMeter").innerHTML = "<i></i>".repeat(CHARGES.length);
+    say("The Bench", "", "Be seated. The respondent will now hear the charges framed against her.");
+    await wait(1500); if (my === token) readCharge(my);
+  }
+  async function readCharge(my) {
+    const [sec, text] = CHARGES[ci];
+    say("Court Clerk", "clerk", `Charge ${ci + 1} of ${CHARGES.length}, under ${sec}: ${text}`);
+    await wait(1400); if (my !== token) return;
+    say("The Bench", "", "How does the respondent plead?");
+    $("#pleaBtns").hidden = false;
+    $("#pleaBtns").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "end" });
+  }
+  async function plead(guilty) {
+    const my = token; $("#pleaBtns").hidden = true;
+    say(you, "you", guilty ? "Guilty, Your Lordship." : "Not guilty, Your Lordship.");
+    await wait(900); if (my !== token) return;
+    if (guilty) say("The Bench", "", pick(["The court appreciates your honesty. Charge proved.", "An honest plea. Charge proved, with admiration.", "Noted. The court is not surprised. Charge proved."]));
+    else {
+      say("Prosecution", "pros", `Your Lordship, I submit ${CHARGES[ci][2]}`);
+      await wait(1700); if (my !== token) return;
+      say("The Bench", "", pick(["Plea rejected. The evidence is overwhelming.", `Plea rejected. Counsel, have you seen Exhibit ${"ABCDE"[ci]}?`, "Plea rejected. Nobody in this courtroom believes that."]));
+    }
+    knock();
+    $$("#chargeMeter i")[ci].classList.add("on");
+    ci++;
+    await wait(1400); if (my !== token) return;
+    if (ci < CHARGES.length) return readCharge(my);
+    say("The Bench", "", `All ${CHARGES.length} charges stand proved. Before sentencing, the court will examine counsel on the maxims of law.`);
+    $("#toQuiz").hidden = false;
+    $("#toQuiz").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "end" });
+  }
+
+  /* viva on maxims */
+  function startQuiz() { qi = 0; score = 0; askQ(); }
+  function askQ() {
+    const [m, right] = MAXIMS[qi];
+    $("#qProgress").textContent = `Question ${qi + 1} of ${MAXIMS.length} · Score ${score}`;
+    $("#qMaxim").textContent = m; $("#qFeedback").hidden = true; $("#qNext").hidden = true;
+    const others = shuffle(MAXIMS.map(x => x[1]).filter(x => x !== right).concat(DISTRACT)).slice(0, 3);
+    const box = $("#qOpts"); box.innerHTML = "";
+    shuffle([right, ...others]).forEach(o => {
+      const b = document.createElement("button"); b.textContent = o;
+      b.addEventListener("click", () => answer(b, o === right));
+      box.append(b);
+    });
+    $("#court").scrollTop = 0;
+  }
+  function answer(btn, ok) {
+    const [, right, twist] = MAXIMS[qi];
+    $$("#qOpts button").forEach(b => { b.disabled = true; if (b.textContent === right) b.classList.add("right"); });
+    if (ok) { score++; chime(); } else { btn.classList.add("wrong"); knock(); }
+    const f = $("#qFeedback"); f.hidden = false;
+    f.textContent = (ok ? "Correct. " : `Not quite. It means “${right}”. `) + twist;
+    $("#qProgress").textContent = `Question ${qi + 1} of ${MAXIMS.length} · Score ${score}`;
+    $("#qNext").textContent = qi === MAXIMS.length - 1 ? "Hear the judgment" : "Next question";
+    $("#qNext").hidden = false;
+    $("#qNext").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "end" });
+  }
+  function nextQ() { if (qi === MAXIMS.length - 1) return show("verdict"); qi++; askQ(); }
+
+  /* gavel and judgment */
+  function startVerdict() { hits = 0; $("#judgment").hidden = true; $("#toConst").hidden = true; $("#orderText").textContent = ""; $("#gavelHint").hidden = false; }
+  function strike() {
+    if (hits >= 3) return;
+    hits++;
+    const g = $("#gavel"); g.classList.add("hit"); setTimeout(() => g.classList.remove("hit"), 150);
+    knock();
+    const o = $("#orderText"); o.textContent = ["Order!", "Order! Order!", "ORDER IN THE COURT!"][hits - 1];
+    o.classList.remove("pop"); void o.offsetWidth; o.classList.add("pop");
+    if (hits === 3) setTimeout(judgment, 900);
+  }
+  function judgment() {
+    $("#gavelHint").hidden = true;
+    const remark = score === 5 ? "answered every maxim correctly, which this court finds frankly intimidating"
+      : score >= 3 ? `answered ${score} of 5 maxims correctly, which is impressive for someone at her own birthday`
+      : `answered ${score} of 5 maxims correctly, which this court will overlook because it is her birthday`;
+    $("#judgDate").textContent = today.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+    $("#judgIntro").textContent = `Having heard the respondent, examined Exhibits A to E, and noted that counsel ${remark}, this Court finds the respondent`;
+    $("#judgOrders").innerHTML = "";
+    ["Guilty on all five counts.",
+     "She is sentenced to a lifetime of happiness, the sentences to run consecutively, forever.",
+     "Bail is denied. The people who love her refuse to let her go.",
+     "Costs are imposed on the petitioners, payable in cake, before midnight today.",
+     "This judgment shall bind every birthday hereafter."].forEach(t => { const li = document.createElement("li"); li.textContent = t; $("#judgOrders").append(li); });
+    $("#judgment").hidden = false; $("#toConst").hidden = false;
+    $("#judgment").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    chime(); fireworks(2600);
+  }
+
+  /* the birthday constitution */
+  function startConst() {
+    signed = false;
+    $("#signBox").hidden = true; $("#enactBtn").hidden = true; $("#adjourn").hidden = true;
+    $("#constHint").textContent = "Ratify each article to bring it into force.";
+    $$("#constDoc .enacted").forEach(e => e.remove());
+    const ul = $("#articles"); ul.innerHTML = "";
+    ARTICLES.forEach(([n, t]) => {
+      const li = document.createElement("li");
+      li.innerHTML = '<div class="art-text"><b></b><span></span></div><button class="ratify">Ratify</button>';
+      li.querySelector("b").textContent = n; li.querySelector("span").textContent = t;
+      const btn = li.querySelector(".ratify");
+      btn.addEventListener("click", () => {
+        if (btn.classList.contains("on")) return;
+        btn.classList.add("on"); btn.textContent = "Ratified";
+        const a = audio(); if (a) pluck(midi(67 + $$(".ratify.on").length * 2), a.currentTime, .5, .07);
+        if ($$(".ratify.on").length === ARTICLES.length) {
+          $("#signBox").hidden = false; $("#enactBtn").hidden = false;
+          $("#constHint").textContent = "All articles ratified. Now sign it, Your Majesty.";
+          initPad();
+          $("#signBox").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+        }
+      });
+      ul.append(li);
+    });
+  }
+  function initPad() {
+    const c = $("#signPad"), ctx = c.getContext("2d");
+    const size = () => { const r = c.getBoundingClientRect(), d = devicePixelRatio || 1; c.width = r.width * d; c.height = r.height * d; ctx.setTransform(d, 0, 0, d, 0, 0); ctx.lineWidth = 2.4; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = "#1a2b5c"; };
+    size(); signed = false;
+    if (padReady) return; padReady = true;
+    let down = false, last = null;
+    const pos = e => { const r = c.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    c.addEventListener("pointerdown", e => { down = true; last = pos(e); c.setPointerCapture(e.pointerId); });
+    c.addEventListener("pointermove", e => { if (!down) return; const p = pos(e); ctx.beginPath(); ctx.moveTo(...last); ctx.lineTo(...p); ctx.stroke(); last = p; signed = true; });
+    ["pointerup", "pointercancel"].forEach(t => c.addEventListener(t, () => { down = false; }));
+    $("#signClear").addEventListener("click", () => { ctx.clearRect(0, 0, c.width, c.height); signed = false; });
+  }
+  function enact() {
+    if (!signed) { $("#constHint").textContent = "The Constitution needs your signature first. Sign in the box with your finger."; return; }
+    const s = document.createElement("div"); s.className = "enacted";
+    s.innerHTML = `ENACTED<small>${fmt(today)}</small>`;
+    $("#constDoc").append(s);
+    knock(); setTimeout(knock, 160);
+    $("#enactBtn").hidden = true; $("#constHint").textContent = "Signed, sealed and in force.";
+    fireworks(4000); playTune();
+    $("#adjourn").hidden = false;
+    setTimeout(() => $("#adjourn").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "end" }), 600);
+  }
+
+  function object() {
+    objections++;
+    const b = $("#objection"); b.classList.remove("shout"); void b.offsetWidth; b.classList.add("shout");
+    knock();
+    const r = $("#ruling");
+    r.innerHTML = "<b>THE BENCH</b><span></span>";
+    r.querySelector("span").textContent = objections === 8 ? "Eight objections. The court admires the persistence. Still overruled." : OBJ[(objections - 1) % OBJ.length];
+    r.hidden = false; clearTimeout(rulingTimer); rulingTimer = setTimeout(() => { r.hidden = true; }, 2800);
+  }
+
+  $$("#court [data-go]").forEach(b => b.addEventListener("click", () => show(b.dataset.go)));
+  $("#pleadG").addEventListener("click", () => plead(true));
+  $("#pleadN").addEventListener("click", () => plead(false));
+  $("#toQuiz").addEventListener("click", () => show("quiz"));
+  $("#qNext").addEventListener("click", nextQ);
+  $("#gavel").addEventListener("click", strike);
+  $("#toConst").addEventListener("click", () => show("constitution"));
+  $("#enactBtn").addEventListener("click", enact);
+  $("#objection").addEventListener("click", object);
+  $("#courtClose").addEventListener("click", close);
+  $("#adjCard").addEventListener("click", close);
+  $("#adjSky").addEventListener("click", () => { close(); openNight(); });
+  return { open };
+})();
+$("#courtBtn").addEventListener("click", Court.open);
+$("#doorCourt").addEventListener("click", Court.open);
 </script>
 </body>
 </html>
